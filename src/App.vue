@@ -1,32 +1,44 @@
 <template>
-  <div id="app">
-    <nav>
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </nav>
-    <router-view/>
+  <div id="app-wrapper">    
+    <div class="app">
+      <Navigation/>
+      <router-view/>
+      <Footer/>
+    </div>
   </div>
 </template>
 
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+<script>
+import Navigation from './components/Navigation.vue';
+import Footer from './components/Footer.vue';
 
-nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
+export default{
+  name:"app",
+  components:{
+    Navigation,
+    Footer
+  },
+  computed: {
+    currentUser() {
+      return this.$store.state.auth.memberEntity;
+    },    
+  },
+  methods: {
+    logOut() {
+      this.$store.dispatch('auth/logout');
+      this.$router.push('/login');
     }
   }
+}
+
+</script>
+
+<style lang="scss">
+
+@import url('https://cdn.rawgit.com/moonspam/NanumSquare/master/nanumsquare.css');
+
+*{
+  text-decoration: none;
+  font-family:"NanumSquare";
 }
 </style>
