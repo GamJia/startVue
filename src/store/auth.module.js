@@ -1,10 +1,11 @@
 import AuthService from '../services/auth.service';
 const memberEntity = JSON.parse(localStorage.getItem('memberEntity'));
+
 const initialState = memberEntity
   ? { status: { loggedIn: true }, memberEntity }
   : { status: { loggedIn: false }, memberEntity: null };
 
-export const auth = {
+export const member = {
   namespaced: true,
   state: initialState,
   actions: {
@@ -18,9 +19,7 @@ export const auth = {
           commit('loginFailure');
           return Promise.reject(error);
         }
-      ).catch(()=>{
-        alert("아이디와 비밀번호를 확인하세요");
-      })
+      );
     },
     logout({ commit }) {
       AuthService.logout();
@@ -37,6 +36,10 @@ export const auth = {
           return Promise.reject(error);
         }
       );
+    },    
+
+    refreshToken({ commit }, accessToken) {
+      commit('refreshToken', accessToken);
     }
   },
   mutations: {
@@ -57,6 +60,11 @@ export const auth = {
     },
     signUpFailure(state) {
       state.status.loggedIn = false;
+    },
+    
+    refreshToken(state, accessToken) {
+      state.status.loggedIn = true;
+      state.memberEntity = { ...state.memberEntity, accessToken: accessToken };
     }
   }
 };

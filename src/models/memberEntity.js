@@ -1,11 +1,12 @@
 export default class MemberEntity{
-    constructor(name,identity,password,checkPassword,phone,birth,gender){
-        this.name=name;
+    constructor(identity,password,checkPassword,name,phone,birth,gender,memberRole){
         this.identity=identity;
         this.password=password;
         this.checkPassword=checkPassword;
-        this.phone=phone;
+        this.name=name;
+        this.phone=phone;       
         this.birth=birth;
         this.gender=gender;
+        this.memberRole=memberRole;
     }
 }

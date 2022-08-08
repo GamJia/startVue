@@ -1,22 +1,24 @@
 <template>
-    <Header>
+     <Header>
         <div class="top_util">
             <ul class="menu_list">
-                <li class="login"><a href="login">로그인</a></li>
-                <li class="join"><a href="signUp">회원가입</a></li>
-                <li class="customer"><a href="#">고객센터</a></li>
+                <li class="login" v-if="!loggedIn"><router-link to="/login">로그인</router-link></li>
+                <li class="logout" v-if="loggedIn" ><a href="#" @click.prevent="logOut">로그아웃</a></li>
+                <li class="join" v-if="!loggedIn"><router-link to="/signUp">회원가입</router-link></li>
+                <li class="join" v-if="loggedIn"><router-link to="/profile">마이페이지</router-link></li>
+                <li class="customer"><router-link to="#">고객센터</router-link></li>
             </ul>
         </div>
 
         <div class="header_inner">
-            <h1><a href="/"><img src="../assets/start-c.png"></a></h1>
+            <h1><router-link to="/"><img src="../assets/start-c.png"></router-link></h1>
                 
             <ul class="mymenu_area">
-                <li class="StartUp"><a href="#">stArt-up</a></li>
-                <li class="partner"><a href="member">Partner</a></li>           
-                <li class="about"><a href="ProductCreate">About stArt</a></li>
-                <li class="product"><a href="#">Product</a></li>   
-                <li class="event"><a href="#">Event</a></li>
+                <li class="StartUp"><router-link to="#">stArt-up</router-link></li>
+                <li class="partner"><router-link to="#">Partner</router-link></li>           
+                <li class="about"><router-link to="#">About stArt</router-link></li>
+                <li class="product"><router-link to="/product" >Product</router-link></li>   
+                <li class="event"><router-link to="#">Event</router-link></li>
                 
             </ul>
         </div>    
@@ -26,6 +28,18 @@
 
 <script>
 export default {
+    name:'Navigation',
+    computed: {
+        loggedIn() {
+            return this.$store.state.member.status.loggedIn;
+        }
+    },
+    methods: {
+    logOut() {
+      this.$store.dispatch('member/logout');
+      this.$router.push('/login').catch(err => { return err });
+    }
+  },
 
 }
 </script>
@@ -35,7 +49,6 @@ a{
     text-decoration: none;
     color:black;
 }
-
 
 Header{
     width:1020px;
@@ -72,7 +85,6 @@ Header{
     .header_inner{
         width:100%;  
         height: 70px;  
-        border-bottom:1px solid #ddd;  
 
         h1{
             img{
@@ -95,15 +107,18 @@ Header{
                 font-size: 20px;
                 font-weight:bold;
 
+                a{
+                    color:#333333;
+                }
+
                 a:hover{
                     transition: 0.2s ease-in-out all;
-                    color: #5363ff;
+                    color: #5a73f1;
                 }
             }
         }
     }
 }
-
 
 
 

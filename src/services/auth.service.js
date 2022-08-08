@@ -1,31 +1,31 @@
-import axios from 'axios';
-const API_URL = 'http://localhost:3306/pos/member/';
+import api from "./api";
+import TokenService from "./token.service";
 
-class AuthService {
-    login(memberEntity) {
-      return axios
-        .post(API_URL + 'login', {
-          identity: memberEntity.identity,
-          password: memberEntity.identity
-        })
-        .then(response => {
-          if (response.data.accessToken) {
-            localStorage.setItem('memberEntity', JSON.stringify(response.data));
-          }
-          return response.data;
-        });
+class AuthService {   
+    async login({identity,password}){
+      const response = await api.post("/member/login", {
+        identity,
+        password
+      });
+      if (response) {
+        TokenService.setMemberEntity(response.data.data);        
+      }
+      
+      return response.data;
     }
     logout() {
-      localStorage.removeItem('memberEntity');
+      TokenService.removeMemberEntity();
     }
-    signUp(memberEntity) {
-      return axios.post(API_URL + 'signUp', {
-        identity: memberEntity.identity,       
-        password:memberEntity.password,
-        checkPassword:memberEntity.checkPassword,
-        phone:memberEntity.phone,
-        birth:memberEntity.birth,
-        gender:memberEntity.gender,       
+    signUp({identity,password,checkPassword,name,phone,birth,gender,memberRole}) {
+      return api.post("/member/signUp", {
+        identity, 
+        password,  
+        checkPassword,
+        name,      
+        phone,
+        birth,
+        gender,
+        memberRole,            
       });
     }
   }

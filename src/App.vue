@@ -1,5 +1,5 @@
 <template>
-  <div id="app-wrapper">    
+  <div class="app-wrapper">    
     <div class="app">
       <Navigation/>
       <router-view/>
@@ -18,17 +18,7 @@ export default{
     Navigation,
     Footer
   },
-  computed: {
-    currentUser() {
-      return this.$store.state.auth.memberEntity;
-    },    
-  },
-  methods: {
-    logOut() {
-      this.$store.dispatch('auth/logout');
-      this.$router.push('/login');
-    }
-  }
+  
 }
 
 </script>
@@ -40,5 +30,19 @@ export default{
 *{
   text-decoration: none;
   font-family:"NanumSquare";
+  
+  
 }
+
+body{
+  margin:5px 0 0 0;
+  
+}
+
+body::-webkit-scrollbar{
+  display: none;
+}
+
+
 </style>
+

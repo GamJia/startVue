@@ -62,8 +62,10 @@ Footer{
                 width: 800px;
                 margin-bottom: 35px;
                 *margin-bottom: 20px;
-
-                li{
+                
+                ul{
+                    padding:0;
+                    li{
                     float: left;
                     font-size: 11px;
                     color: #666;
@@ -76,6 +78,7 @@ Footer{
                         color: #666;
                         font-weight:bold;
                     }
+                }
                 }
             }
             .footer_txt{

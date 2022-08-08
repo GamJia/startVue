@@ -3,55 +3,55 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Login from '../views/Login.vue'
 import SignUp from '../views/SignUp.vue'
-import ForgotPassword from '../views/ForgotPassword.vue'
-import Member from '../views/Member.vue'
-import ProductCreate from '../components/ProductCreate.vue'
+import SignUpCheck from '../views/SignUpCheck.vue'
+import Profile from '../views/Profile.vue'
+import Product from '../views/Product.vue'
+
 
 Vue.use(VueRouter)
 
-const routes = [
-  {
-    path: '/',
-    name: 'home',
-    component: Home
-  },
-
-  {
-    path: '/login',
-    name: 'login',
-    component: Login
-  },
-
-  {
-    path: '/signUp',
-    name: 'SignUp',
-    component: SignUp
-  },
-
-  {
-    path: '/forgotPassword',
-    name: 'forgotPassword',
-    component: ForgotPassword
-  },
-
-  {
-    path: '/member',
-    name: 'member',
-    component: Member
-  },
-
-  {
-    path: '/productCreate',
-    name: 'productCreate',
-    component: ProductCreate
-  },
-  
-]
-
-const router = new VueRouter({
+export default new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
-  routes
+  routes:[
+    {
+      path: '/',
+      name: 'home',
+      component: Home
+    },
+  
+    {
+      path: '/login',
+      name: 'login',
+      component: Login,
+     
+    },
+  
+    {
+      path: '/signUp',
+      name: 'SignUp',
+      component: SignUp
+    },
+  
+    {
+      path: '/signUpCheck',
+      name: 'SignUpCheck',
+      component: SignUpCheck
+    },
+  
+  
+    {
+      path: '/profile/',
+      name: 'profile',
+      component: Profile
+    },
+  
+    {
+      path: '/product',
+      name: 'product',
+      component: Product
+    },
+  
+  ]
 })
 
-export default router

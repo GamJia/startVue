@@ -1,44 +1,59 @@
 <template>
   <div class="Container">
-    <div class="Contents">
+    <span class="wallpaper">
+      <div class="description">
+        <h1>집 앞의 작은 즐거움<br>start with stArt</h1>
+        <div class="description_button">
+          <router-link to="/product" tag="button">상품 보러 가기 <font-awesome-icon icon="fa-solid fa-chevron-right" /></router-link>
+        </div>
+      </div>
       <div class="main_banner">
-        <hooper :autoPlay="true" :playSpeed="2000">
+        <img src="../assets/title.png" alt="">
+      </div>
+    </span>
+    <div class="advertise">
+      <ul>
+        <li>
+          <div class="ad">
+            <img src="../assets/icon1.png">
+            <h4>App으로 더욱 간편하게!</h4>
+          </div>          
+        </li>
+        <li>          
+          <div class="ad">
+            <img src="../assets/icon2.png">
+            <h4>매달 진행되는 다양한 이벤트!</h4>
+          </div>         
+        </li>
+        <li>          
+          <div class="ad">
+            <img src="../assets/icon3.png">
+            <h4>다양한 상품 아이디어!</h4>
+          </div>         
+        </li>
+        <li>          
+          <div class="ad">
+            <img src="../assets/icon4.png">
+            <h4>항상 고객을 우선시!</h4>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div class="main_hooper">
+      <hooper :autoPlay="true" :playSpeed="2000">
           <slide><img src="../assets/slider1.png"></slide>
           <slide><img src="../assets/slider2.png"></slide>
           <slide><img src="../assets/slider3.png"></slide>
           <hooper-pagination slot="hooper-addons" />
         </hooper>
-      </div>
-
-      <div class="mobile_banner">
-        <div class="mobile_container">
-          <div class="mobile_contents">
-            <h1>stArt의 할인 소식을<br> 가장 먼저 알고 싶다면?</h1>
-            <h3>stArt App을 다운 받아보세요!</h3>            
-          </div>
-          <div class="mobile_image">
-            <img src="../assets/mobile.png">
-          </div>          
-        </div>
-      </div>
-
-      <div class="inner_wrap">
-        <div class="inner_container">
-          <h3>Product</h3>
-          <div class="prod_card">
-            <ProductItem :post="post" v-for="(post,index) in sample" :key="index"/>
-          </div>
-        </div>
-      </div>
-    </div>    
+    </div>
   </div>
 </template>
 
 <script>
 import {Hooper, Slide, Pagination as HooperPagination, Navigation as HooperNavigation} from 'hooper';
 import "hooper/dist/hooper.css";
-import ProductItem from '../components/ProductItem.vue';
-import UserService from '../services/user.service';
+
 export default {
   name:"Home",
   components:{
@@ -46,155 +61,167 @@ export default {
     Slide,
     HooperPagination,
     HooperNavigation,
-    ProductItem
+
   },
  
-  mounted() {
-    UserService.getPublicContent().then(
-      response => {
-        this.content = response.data;
-      },
-      error => {
-        this.content =
-          (error.response && error.response.data) ||
-          error.message ||
-          error.toString();
-      }
-    );
-  },
-  data(){
-    return{
-      sample:[
-        {
-          title:"불닭볶음면",
-          cost:"1500원",
-          coverPhoto:"firenoodle",
-        },
-        {
-          title:"초코우유",
-          cost:"1650원",
-          coverPhoto:"chocomilk",
-        },
-        {
-          title:"코카콜라",
-          cost:"1700원",
-          coverPhoto:"coke",
-        },
-        {
-          title:"마스크",
-          cost:"2000원",
-          coverPhoto:"mask",
-        },
-        {
-          title:"비닐우산",
-          cost:"7000원",
-          coverPhoto:"umbrella",
-        },
-      ],
-    }
-  },
 }
 </script>
 
-
-<style lang="scss">
+<style lang="scss" scoped>
 .Container{
-  overflow: hidden;
+  overflow: hidden; 
+  width:1280px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin:0 auto; 
 
-  .Contents{
-    width: 1020px;
-    height: 100%;
-    margin: 0 auto;
-    overflow: hidden;
+  .wallpaper{
+    background-image:url('../assets/wallpaper.png');
+    position:relative;
+    width:1280px;
+    height:440px;
 
-    .main_banner {
-      width: 100%;
-      height: 470px;
-      border-bottom:1px solid #ddd;  
-      overflow: hidden;
-      margin-bottom:70px;
-      .hooper{
-        position: absolute;
-        width: 1020px;   
-        z-index: 0;
-        height: 450px;
-        min-width: 1020px;
-        overflow: hidden;
+    .description{
+      position:relative;
+      float:left;
+      left:80px;
+      top:40px;
+      color:white;
+      h1{
+        font-weight:300;
+        font-size:48px;
+      }
+      .description_button
+      {
+        padding-top:30px;
+        button{
+          border-radius: 40px;
+          border:1px solid white;
+          background:rgb(255,255,255,0);
+          color:white;
+          padding:10px 20px;
+          font-size:17px;
 
-        .hooper-indicator {
-          margin: 0 2px;
-          width: 12px;
-          height: 12px;
-          border-radius: 12px;
-          border: none;
-          padding: 0;
-          background-color: #d3d3d3;
-          cursor: pointer;
-        }
+          svg{
+            margin-left:10px;
+            color:white;
+            transform:translateX(-50%);
 
-        .hooper-indicator:hover, .hooper-indicator.is-active {
-          background-color:#6ea1d0;
+          }
+
+          &:hover{
+            cursor: pointer;
+            padding:10px 30px;
+            transition: 0.3s ease-in-out all;
+            svg{
+              transition: 0.3s ease-in-out all;  
+              transform:translateX(0);
+            }
+          }
         }
       }
     }
 
-    .mobile_banner{
-      background: linear-gradient(-45deg, #f3f5f0  10%,#d7e4f0 90%);
-      border-radius: 10px;
-      overflow: hidden;
-      padding: 33px;
-      box-sizing: border-box;
-      overflow: hidden;
-      height:200px;    
-
-      .mobile_contents{
-        width:50%;
-        float:left;
-        color:#666;
-        h1{
-          color:#4f4f4f;          
-        }
-
-        h3{
-          font-weight:300;         
-        }
+    .main_banner{
+      position:relative;
+      float:right;
+      top:40px;
+      left:90px;
+      img{
+        width:600px;
+        height:480px;
       }
 
-      .mobile_image{
-        width:50%;
-        height:auto;
-        float:right;   
-        
-        img{
-          float:right;
-          width:650px;
-        }
-      }
     }
 
     
   }
+
+  .advertise{
+    background:#f6f6f6;
+    padding:0;
+    border-radius: 30px;
+    width:1080px;
+    justify-content: center;
+    display: flex;
+    margin:0 auto;
+    ul{
+        width:100%;
+        list-style: none;
+        display:grid;
+        padding:15px;
+        grid-template-columns: repeat(4,1fr);
+      li{        
+        float:left;        
+        .ad{
+          display: flex;
+          justify-content: center;          
+          flex-direction: column;
+          img{
+           margin:0 auto;
+            width:150px;
+            height:150px;
+          }
+
+          h4{
+            color:#666;
+            text-align: center;
+            font-weight:400;
+          }
+
+        }
+        
+      }
+
+      li:last-child{
+          border-right:0px;
+      }
+    }
+  }
+
+  .main_hooper{
+
+    justify-content: center;
+    display: flex;
+    margin:60px auto;
+    width: 1280px;
+    height: 470px;
+    border-top:1px solid #ddd;  
+    border-bottom:1px solid #ddd;  
+    overflow: hidden;
+    margin-bottom:70px;
+    .hooper{
+      position: absolute;
+      width: 1280px;   
+      z-index: 0;
+      height: 450px;
+      min-width: 1280px;
+      overflow: hidden;
+
+      .hooper-indicator {
+        margin: 0 2px;
+        width: 12px;
+        height: 12px;
+        border-radius: 12px;
+        border: none;
+        padding: 0;
+        background-color: #d3d3d3;
+        cursor: pointer;
+      }
+
+      .hooper-indicator:hover, .hooper-indicator.is-active {
+        background-color:#6ea1d0;
+      }
+    }
+  }
+  
+
+ 
 }
 
 
-.inner_wrap{
-  position:relative;
-  padding:40px 40px;
-  background-color:#fff;  
-  height:400px;
-}
 
-.inner_wrap .inner_container h3{
-  font-weight:bold;
-  font-size:30px;
-  margin-bottom:32px;
-}
-
-.inner_container>.prod_card {
-  display:grid;
-  gap:20px;
-  grid-template-columns: repeat(5,1fr);
-}
 </style>
 
 

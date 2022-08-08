@@ -1,5 +1,5 @@
 <template>
-    <div class="login_wrap">
+    <div class="login_wrap">        
         <div class="login_container">
             <div class="login_contents">
                 <div class="login_banner">
@@ -9,24 +9,20 @@
                 <form class="login_form" @submit.prevent="handleLogin">
                     <ul>
                         <li>
-                            <input type="text" class="login_id" v-model="memberEntity.identity" placeholder="아이디 입력" width="100">
+                            <input type="text" class="login_id" v-model="memberEntity.identity" placeholder="아이디 입력" width="100" v-validate="'required'" name="identity">
                         </li>
                         <li>
-                            <input type="password" class="login_password" v-model="memberEntity.password" placeholder="비밀번호 입력" width="100" />
+                            <input type="password" class="login_password" v-model="memberEntity.password" placeholder="비밀번호 입력" width="100" v-validate="'required'" name="password"/>
                         </li>
                     </ul>
 
-                    <div class="login_footer">
-                        <a href="#" class="login_search">아이디 찾기 / 비밀번호 재설정</a>
-                        <a href="signup" class="register">회원가입</a>
-                    </div>
-
                     <div class="button_wrap">
                         <button type="submit">Login</button>
-                    </div>
+                    </div>   
 
-                    
+                             
                 </form>
+                
             </div>
         </div>
     </div>
@@ -37,46 +33,50 @@ import MemberEntity from '../models/memberEntity';
 
 export default {
     name:"Login",
-    methods:{
-
-    },
+    
     data(){
         return{
-            memberEntity: new MemberEntity(this.identity, this.password),
+            memberEntity: new MemberEntity('',''),
             loading: false,
             message: ''
         }
     },
 
     computed: {
-    loggedIn() {
-      return this.$store.state.auth.status.loggedIn;
-    }
+        loggedIn() {
+            return this.$store.state.member.status.loggedIn;
+        }
     },
     created() {
         if (this.loggedIn) {
-        this.$router.push('/');
+            this.$router.push('/profile').catch(err => { return err });
         }
     },
     methods: {
         handleLogin() {
+           
             this.loading = true;
             this.$validator.validateAll().then(isValid => {
                 if (!isValid) {
-                this.loading = false;
-                return;
+                    this.loading = false;
+                    return;
                 }
                 if (this.memberEntity.identity && this.memberEntity.password) {
-                this.$store.dispatch('auth/login', this.memberEntity).then(
+                this.$store.dispatch('member/login', this.memberEntity).then(
                     () => {
-                        //this.$router.push('/login');
+                        
+                        this.$router.push('/profile'); 
+                                               
                     },
                     error => {
                     this.loading = false;
+                    
                     this.message =
                         (error.response && error.response.data) ||
                         error.message ||
                         error.toString();
+                        
+                        alert("아이디와 비밀번호를 확인해주세요");
                     }
                 );
             }
@@ -86,7 +86,6 @@ export default {
   
 };
 </script>
-
 
 <style lang="scss" scoped>
 .login_wrap {
@@ -137,14 +136,14 @@ export default {
                         input{
                             padding: 0 20px;
                             width: 430px;
+                            font-size:13px;
                             height: 60px;
                             line-height: 60px;
                             vertical-align: middle;
                             border-radius: 0 0 5px 5px;
                             border: 1px solid #dddddd; 
-                            transition: 0.5s ease-in-out all;
-
-                                                       
+                            transition: 0.5s ease-in-out all;   
+                            background:white;    
 
                             &:focus{                
                                 outline:none;        
@@ -169,19 +168,7 @@ export default {
                     
                 }
 
-                .login_footer{
-                    margin-top:27px;  
-                    font-size:13px;
-                    padding:0 20px;                    
-                    
-                    a{
-                        color:#666666; 
-                    }                             
-                    
-                    .register{
-                        float:right;
-                    }
-                }
+                
 
                 .button_wrap{
                     
@@ -206,12 +193,10 @@ export default {
                         text-align: center;
                     }
                 }
-
+              
             }
         }
     }
 }
-
-
 
 </style>
